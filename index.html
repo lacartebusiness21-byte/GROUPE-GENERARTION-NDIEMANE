@@ -28,7 +28,7 @@ input,select{width:100%;padding:10px;border:1px solid var(--bd);border-radius:8p
 h2{font-size:16px;margin:6px 0 10px}.row{display:flex;gap:8px;flex-wrap:wrap}
 @media print{nav,header button,.np{display:none}}
 </style></head><body>
-<header><h1>Groupe Génération Ndiemane</h1><small>Suivi des cotisations mensuelles &amp; gestion financière</small><small id="sy"> · local</small></header>
+<header style="display:flex;align-items:center;justify-content:space-between;gap:8px"><div><h1>Groupe Génération Ndiemane</h1><small>Suivi des cotisations mensuelles &amp; gestion financière</small><small id="sy"> · local</small></div><button id="lo" onclick="logout()" style="display:none;background:#fff3;color:#fff;border:1px solid #fff8;border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer">⎋ Déconnexion</button></header>
 <main id="v"></main><div id="m"></div>
 <nav id="nv"></nav>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -123,6 +123,6 @@ async function login(){le.textContent='';try{await firebase.auth().signInWithEma
 function logout(){firebase.auth().signOut().then(()=>location.reload())}
 try{firebase.initializeApp(FB);FS=firebase.firestore();firebase.auth().onAuthStateChanged(u=>{if(!u){ROLE=null;draw();return}ROLE=u.email==ADMIN_EMAIL?'a':u.email==TRES_EMAIL?'t':null;if(!ROLE){logout();return}draw();startSync()})}catch(e){console.error(e)}
 const TABS=[['d','📊','Accueil',dash],['c','💰','Cotisations',cot],['m','👥','Membres',mem],['f','🏦','Caisse',cai],['p','⚙️','Réglages',par]];
-function draw(){if(!ROLE){if(!document.getElementById('lr'))loginView();return}document.getElementById('v').innerHTML=TABS.find(t=>t[0]==tab)[3]();document.getElementById('nv').innerHTML=TABS.map(t=>`<button class="${t[0]==tab?'on':''}" onclick="tab='${t[0]}';draw();scrollTo(0,0)"><b>${t[1]}</b>${t[2]}</button>`).join('')}
+function draw(){const lo=document.getElementById('lo');if(lo)lo.style.display=ROLE?'':'none';if(!ROLE){if(!document.getElementById('lr'))loginView();return}document.getElementById('v').innerHTML=TABS.find(t=>t[0]==tab)[3]();document.getElementById('nv').innerHTML=TABS.map(t=>`<button class="${t[0]==tab?'on':''}" onclick="tab='${t[0]}';draw();scrollTo(0,0)"><b>${t[1]}</b>${t[2]}</button>`).join('')}
 draw();
 </script></body></html>
