@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Groupe Génération Ndiemane – Cotisations</title><link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
+<style>
+:root{--bg:#f4f6f3;--card:#fff;--tx:#17231c;--mu:#66756b;--pr:#0f7a4a;--pr2:#e3f4ea;--bd:#dde4df;--rd:#c0392b;--or:#d98a00;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1512;--card:#18211c;--tx:#e8f0ea;--mu:#8fa297;--pr:#3ecf8e;--pr2:#16301f;--bd:#2a362f;--rd:#ff6b5b;--or:#f0b429}}
+:root[data-theme="dark"]{--bg:#0f1512;--card:#18211c;--tx:#e8f0ea;--mu:#8fa297;--pr:#3ecf8e;--pr2:#16301f;--bd:#2a362f;--rd:#ff6b5b;--or:#f0b429}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding-bottom:70px}
+header{background:var(--pr);color:#fff;padding:14px 16px}header h1{margin:0;font-size:18px}header small{opacity:.85}
+main{max-width:980px;margin:0 auto;padding:12px}
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--bd);display:flex;padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav button{flex:1;border:0;background:none;color:var(--mu);padding:9px 2px;font-size:11px;cursor:pointer}nav button b{display:block;font-size:19px}nav button.on{color:var(--pr);font-weight:700}
+.g{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.c{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:10px}
+.k small{color:var(--mu);display:block}.k b{font-size:20px}
+.ok{color:var(--pr)}.ko{color:var(--rd)}.wa{color:var(--or)}
+.r{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--bd)}.r:last-child{border:0}.r .n{flex:1;min-width:0}.r .n div{font-weight:600}.r .n small{color:var(--mu)}
+button.b,a.b{background:var(--pr);color:#fff;border:0;border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer;text-decoration:none;display:inline-block}
+button.s,a.s{background:var(--pr2);color:var(--pr)}button.d{background:none;color:var(--rd);border:1px solid var(--bd)}
+input,select{width:100%;padding:10px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx);font-size:15px;margin:4px 0}
+.bar{height:8px;background:var(--bd);border-radius:5px;overflow:hidden}.bar i{display:block;height:100%;background:var(--pr)}
+.tag{font-size:11px;padding:2px 8px;border-radius:9px;background:var(--pr2);color:var(--pr)}.tag.ko{background:#fde8e5;color:var(--rd)}.tag.wa{background:#fff3d6;color:var(--or)}
+.sc{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid var(--bd);padding:5px;text-align:center;white-space:nowrap}td:first-child,th:first-child{text-align:left;position:sticky;left:0;background:var(--card)}
+.ch{display:flex;align-items:flex-end;gap:4px;height:110px}.ch div{flex:1;background:var(--pr);border-radius:4px 4px 0 0;min-height:2px;position:relative}.ch span{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:9px;color:var(--mu)}
+#m{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;z-index:9;padding:16px}#m>div{background:var(--card);border-radius:14px;padding:16px;width:100%;max-width:380px}
+h2{font-size:16px;margin:6px 0 10px}.row{display:flex;gap:8px;flex-wrap:wrap}
+@media print{nav,header button,.np{display:none}}
+</style></head><body>
+<header><h1>Groupe Génération Ndiemane</h1><small>Suivi des cotisations mensuelles &amp; gestion financière</small><small id="sy"> · local</small></header>
+<main id="v"></main><div id="m"></div>
+<nav id="nv"></nav>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+/* ====== CONFIGURATION FIREBASE : collez ici vos valeurs (Console Firebase > Paramètres du projet > Vos applications) ====== */
+const FB={apiKey:"AIzaSyASky8PSNpg3AaJIZSPA7-DAUH4ajDE-nY",authDomain:"groupe-generation-ndiemane.firebaseapp.com",projectId:"groupe-generation-ndiemane",storageBucket:"groupe-generation-ndiemane.firebasestorage.app",messagingSenderId:"72623731557",appId:"1:72623731557:web:9acc7438309b42dd2da78c",measurementId:"G-2HX2KQWWFY"};
+/* Emails des 2 comptes créés dans Firebase > Authentication (doivent être identiques dans firestore.rules) */
+const ADMIN_EMAIL="admin@generation-ndiemane.com",TRES_EMAIL="tresorier@generation-ndiemane.com";
+const NAMES=[["ALIOU FAYE","783539645"],["JACQUES ALIOU DIENG","773617885"],["SEYDINA OMAR DIOUF","772481995"],["BOUBA SARR","782048279"],["NDONGO NGOM","782432826"],["MOUHAMED EMA FAYE","782172011"],["DANIEL THIAW","771632870"],["BOURE DIOUF","781549298"],["ELI NGOMACK DIOUF","776224784"],["KORY DIONE","778721629"],["SIMON DIENG","789288199"],["MAURICE NIANE","777563037"],["FRANCOIS PAPE DIOUF","778337994"],["OUSSEYNOU NIANG","773390363"],["ABLAYE DIONE","771524096"],["MOUSSA FAYE","776813892"],["BIRAME SENE","778070202"],["EMMANUEL DIENG","772349662"],["SERIGNE DAME DIOUF","773799000"],["MALICK DIENG","777292546"],["WALY DIONE","773443343"],["FRERE MICHEL FAYE","777659625"],["BABOU DIENG","770108798"],["SALIOU DIAGNE","783405134"],["ALIOU SAGNE","771935339"],["WALY SECK","777027488"]];
+const KEY='gen_ndiemane_v1';
+let S;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+if(!S)S={cotis:1000,start:'2026-10',members:NAMES.map((m,i)=>({id:i+1,name:m[0],tel:m[1]})),pay:{},mov:[],card:{},carte:1000};
+if(!S.card){S.card={};S.carte=1000;S.cotis=1000}
+let ROLE=null,FS=null;
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const MN=['Janv','Févr','Mars','Avr','Mai','Juin','Juil','Août','Sept','Oct','Nov','Déc'];
+const months=()=>{let[y,m]=S.start.split('-').map(Number),a=[];for(let i=0;i<12;i++){a.push({k:y+'-'+String(m).padStart(2,'0'),l:MN[m-1]+' '+String(y).slice(2)});if(++m>12){m=1;y++}}return a};
+const F=n=>Math.round(n).toLocaleString('fr-FR')+' F';
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const paid=(id,k)=>(S.pay[id+'|'+k]||{}).a||0;
+const nowK=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')};
+let MS=months();let DBH=null;const W=(p,d)=>{try{(d===null?DBH.doc(p).delete():DBH.doc(p).set(d)).catch(e=>alert('Écriture refusée : droits insuffisants pour cette action.'))}catch(e){}};let cur=MS.find(x=>x.k===nowK())?nowK():MS[0].k;let tab='d',q='';
+const monthTotal=k=>S.members.reduce((s,m)=>s+paid(m.id,k),0);
+const totC=()=>MS.reduce((s,x)=>s+monthTotal(x.k),0);
+const totK=()=>Object.keys(S.card).length*S.carte;
+const sumMov=t=>S.mov.filter(x=>x.t===t).reduce((s,x)=>s+x.a,0);
+const today=()=>new Date().toISOString().slice(0,10);
+function modal(title,fields,ok,del){const m=document.getElementById('m');m.style.display='flex';
+m.innerHTML=`<div><h2>${title}</h2>${fields.map((f,i)=>`<label>${f.l}${f.o?`<select id="f${i}">${f.o.map(o=>`<option ${o==f.v?'selected':''}>${o}</option>`).join('')}</select>`:`<input id="f${i}" type="${f.t||'text'}" value="${esc(f.v??'')}">`}</label>`).join('')}<div class="row" style="margin-top:8px"><button class="b" id="ok">Valider</button><button class="b s" id="no">Annuler</button>${del?'<button class="b d" id="dl">Supprimer</button>':''}</div></div>`;
+const x=()=>m.style.display='none';document.getElementById('no').onclick=x;
+document.getElementById('ok').onclick=()=>{ok(fields.map((f,i)=>document.getElementById('f'+i).value));x()};
+if(del)document.getElementById('dl').onclick=()=>{if(confirm('Confirmer la suppression ?')){del();x()}}}
+function cd(id){if(DBH){W('card/'+id,S.card[id]?null:{d:today()});return}if(S.card[id])delete S.card[id];else S.card[id]=today();save();draw()}
+function pay(id,k,a){if(DBH){W('pay/'+id+'_'+k,a>0?{a,d:today()}:null);return}if(a>0)S.pay[id+'|'+k]={a,d:today()};else delete S.pay[id+'|'+k];save();draw()}
+function wa(m,k){const t='221'+m.tel;const l=MS.find(x=>x.k===k).l;return `https://wa.me/${t}?text=${encodeURIComponent('Bonjour '+m.name+', rappel de la cotisation du mois de '+l+' ('+F(S.cotis)+') du Groupe Génération Ndiemane. Merci.')}`}
+function dash(){const idx=MS.findIndex(x=>x.k===nowK());const due=(idx<0?(nowK()<MS[0].k?0:12):idx+1);const exp=due*S.members.length*S.cotis;const c=totC(),inc=sumMov('r'),dep=sumMov('d');
+const rate=exp?Math.min(100,c/exp*100):0;const mx=Math.max(1,...MS.map(x=>monthTotal(x.k)));
+const late=S.members.filter(m=>paid(m.id,cur)<S.cotis);
+return `<div class="c row np"><button class="b" onclick="recap('png')">Récap PNG</button><button class="b" onclick="recap('pdf')">Récap PDF</button></div><div class="g"><div class="c k"><small>Cotisations encaissées</small><b class="ok">${F(c)}</b></div><div class="c k"><small>Cartes de membre (${Object.keys(S.card).length}/${S.members.length})</small><b class="ok">${F(totK())}</b></div><div class="c k"><small>Autres recettes</small><b>${F(inc)}</b></div><div class="c k"><small>Dépenses</small><b class="ko">${F(dep)}</b></div><div class="c k"><small>Solde en caisse</small><b>${F(c+inc-dep+totK())}</b></div></div>
+<div class="c"><small>Taux de recouvrement (à date) : <b>${rate.toFixed(0)}%</b> — attendu ${F(exp)}</small><div class="bar"><i style="width:${rate}%"></i></div></div>
+<div class="c"><h2>Encaissements par mois</h2><div class="ch" style="margin-bottom:20px">${MS.map(x=>`<div style="height:${monthTotal(x.k)/mx*100}%" title="${F(monthTotal(x.k))}"><span>${x.l.slice(0,4)}</span></div>`).join('')}</div></div>
+<div class="c"><h2>Impayés – ${MS.find(x=>x.k===cur).l} (${late.length})</h2>${late.slice(0,8).map(m=>`<div class="r"><div class="n"><div>${esc(m.name)}</div><small>Reste ${F(S.cotis-paid(m.id,cur))}</small></div><a class="b s" target="_blank" href="${wa(m,cur)}">Relancer</a></div>`).join('')||'<p class="ok">Tous à jour ✔</p>'}${late.length>8?'<small>… voir onglet Cotisations</small>':''}</div>`}
+function cot(){const sel=`<select onchange="cur=this.value;draw()">${MS.map(x=>`<option value="${x.k}" ${x.k==cur?'selected':''}>${x.l}</option>`).join('')}</select>`;
+const t=monthTotal(cur),exp=S.members.length*S.cotis;
+return `<div class="c">${sel}<div class="bar" style="margin-top:8px"><i style="width:${Math.min(100,t/exp*100)}%"></i></div><small>${F(t)} / ${F(exp)} — ${S.members.filter(m=>paid(m.id,cur)>=S.cotis).length}/${S.members.length} à jour</small></div>
+<div class="c">${S.members.map(m=>{const p=paid(m.id,cur),st=p>=S.cotis?['Payé','']:p>0?['Partiel','wa']:['Impayé','ko'];
+return `<div class="r"><div class="n"><div>${esc(m.name)}</div><small>${F(p)} · <span class="tag ${st[1]}">${st[0]}</span></small></div>${p<S.cotis?`<button class="b" onclick="pay(${m.id},cur,${S.cotis})">Payé</button>`:''}<button class="b s" onclick="edP(${m.id})">✎</button></div>`}).join('')}</div>
+<div class="c"><h2>Cartes de membre (${F(S.carte)}) – ${Object.keys(S.card).length}/${S.members.length}</h2>${S.members.map(m=>`<div class="r"><div class="n"><div>${esc(m.name)}</div></div>${S.card[m.id]?`<span class="tag">Payée</span><button class="b d" onclick="cd(${m.id})">✕</button>`:`<button class="b" onclick="cd(${m.id})">Encaisser</button>`}</div>`).join('')}</div><div class="c"><h2>Vue annuelle</h2><div class="sc"><table><tr><th>Membre</th>${MS.map(x=>`<th>${x.l}</th>`).join('')}<th>Total</th></tr>${S.members.map(m=>`<tr><td>${esc(m.name)}</td>${MS.map(x=>{const p=paid(m.id,x.k);return `<td class="${p>=S.cotis?'ok':p>0?'wa':'ko'}">${p>=S.cotis?'✔':p>0?'½':'·'}</td>`}).join('')}<td><b>${F(MS.reduce((s,x)=>s+paid(m.id,x.k),0))}</b></td></tr>`).join('')}</table></div></div>`}
+function edP(id){const m=S.members.find(x=>x.id==id);modal('Cotisation – '+esc(m.name),[{l:'Montant versé (F CFA)',t:'number',v:paid(id,cur)}],v=>pay(id,cur,Math.max(0,+v[0]||0)))}
+function mem(){const l=S.members.filter(m=>(m.name+m.tel).toLowerCase().includes(q.toLowerCase()));
+return `<div class="c"><input placeholder="Rechercher…" value="${esc(q)}" oninput="q=this.value;draw();this.focus()"><button class="b" onclick="edM()">+ Nouveau membre</button></div><div class="c">${l.map(m=>{const t=MS.reduce((s,x)=>s+paid(m.id,x.k),0);return `<div class="r"><div class="n"><div>${m.id}. ${esc(m.name)}</div><small>${m.tel} · Total ${F(t)}</small></div><a class="b s" href="tel:+221${m.tel}">📞</a>${ROLE=='a'?`<button class="b s" onclick="edM(${m.id})">✎</button>`:''}</div>`}).join('')}</div>`}
+function edM(id){const m=S.members.find(x=>x.id==id)||{};modal(id?'Modifier membre':'Nouveau membre',[{l:'Prénom & Nom',v:m.name},{l:'Téléphone',t:'tel',v:m.tel}],v=>{if(!v[0].trim())return;const nid=id||Math.max(0,...S.members.map(x=>x.id))+1,o={id:nid,name:v[0].toUpperCase(),tel:v[1]};if(DBH){W('members/'+nid,{name:o.name,tel:o.tel});return}if(id){m.name=o.name;m.tel=o.tel}else S.members.push(o);save();draw()},id?()=>{if(DBH){W('members/'+id,null);return}S.members=S.members.filter(x=>x.id!=id);save();draw()}:null)}
+function cai(){const l=[...S.mov].sort((a,b)=>b.d.localeCompare(a.d));
+return `<div class="g"><div class="c k"><small>Recettes diverses</small><b class="ok">${F(sumMov('r'))}</b></div><div class="c k"><small>Dépenses</small><b class="ko">${F(sumMov('d'))}</b></div></div><div class="c"><button class="b" onclick="edV()">+ Dépense / Recette</button></div><div class="c">${l.map(x=>`<div class="r"><div class="n"><div>${esc(x.l)}</div><small>${x.d} · ${x.c}</small></div><b class="${x.t=='d'?'ko':'ok'}">${x.t=='d'?'−':'+'}${F(x.a)}</b>${ROLE=='a'?`<button class="b d" onclick="delV(${x.i})">✕</button>`:''}</div>`).join('')||'<p>Aucun mouvement.</p>'}</div>`}
+function edV(){modal('Nouveau mouvement',[{l:'Type',o:['Dépense','Recette']},{l:'Libellé'},{l:'Catégorie',o:['Entraide','Fête / Événement','Fournitures','Transport','Don','Autre']},{l:'Montant (F)',t:'number'},{l:'Date',t:'date',v:today()}],v=>{if(!v[1]||!+v[3])return;const o={i:Date.now(),t:v[0]=='Dépense'?'d':'r',l:v[1],c:v[2],a:+v[3],d:v[4]};if(DBH){W('mov/'+o.i,o);return}S.mov.push(o);save();draw()})}
+function delV(i){if(confirm('Supprimer ?')){if(DBH){W('mov/'+i,null);return}S.mov=S.mov.filter(x=>x.i!=i);save();draw()}}
+function par(){const ad=ROLE=='a';return `<div class="c"><h2>Session : ${ad?'Administrateur':'Trésorier'} <button class="b s" onclick="logout()">Déconnexion</button></h2></div>${ad?`<div class="c"><h2>Paramètres</h2><label>Cotisation mensuelle (F CFA)<input type="number" id="cs" value="${S.cotis}"></label><label>Carte de membre (F CFA)<input type="number" id="ca" value="${S.carte}"></label><label>Premier mois<input type="month" id="st" value="${S.start}"></label><button class="b" onclick="S.cotis=+cs.value||S.cotis;S.carte=+ca.value||S.carte;S.start=st.value||S.start;if(DBH){W('app/cfg',{cotis:S.cotis,carte:S.carte,start:S.start,seeded:true});return}save();location.reload()">Enregistrer</button></div><div class="c"><small>Les mots de passe se gèrent dans Firebase Console &gt; Authentication.</small></div>`:''}
+<div class="c row"><button class="b s" onclick="recap('png')">Récap PNG</button><button class="b s" onclick="recap('pdf')">Récap PDF</button><button class="b s" onclick="csv()">Exporter CSV</button><button class="b s" onclick="bk()">Sauvegarde JSON</button><button class="b s" onclick="fi.click()">Restaurer</button><button class="b s" onclick="window.print()">Imprimer</button><input type="file" id="fi" hidden accept=".json" onchange="rs(this)"></div>
+<div class="c"><small>${DBH?'🟢 Base partagée en temps réel : tous les appareils ayant accès voient les mêmes données instantanément.':'🔴 Mode local : données enregistrées sur cet appareil seulement.'}</small><br><br><button class="b d" onclick="if(confirm('Effacer toutes les données ?')){localStorage.removeItem(KEY);location.reload()}">Réinitialiser</button></div>`}
+function dl(n,t,mime){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:mime}));a.download=n;a.click()}
+function csv(){dl('cotisations.csv','\ufeffNom;Tel;'+MS.map(x=>x.l).join(';')+';Total\n'+S.members.map(m=>[m.name,m.tel,...MS.map(x=>paid(m.id,x.k)),MS.reduce((s,x)=>s+paid(m.id,x.k),0)].join(';')).join('\n'),'text/csv')}
+function bk(){dl('generation-ndiemane-'+today()+'.json',JSON.stringify(S),'application/json')}
+function rs(i){const r=new FileReader();r.onload=()=>{try{S=JSON.parse(r.result);save();location.reload()}catch(e){alert('Fichier invalide')}};r.readAsText(i.files[0])}
+function recap(fmt){const W=1800,rh=34,top=130,n=S.members.length,H=top+rh*(n+2)+40;const cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');
+x.fillStyle='#fff';x.fillRect(0,0,W,H);x.fillStyle='#0f7a4a';x.fillRect(0,0,W,64);x.fillStyle='#fff';x.font='bold 32px Arial';x.textAlign='left';x.fillText('GROUPE GÉNÉRATION NDIEMANE – RÉCAPITULATIF DES COTISATIONS',24,42);
+const c=totC(),k=totK(),inc=sumMov('r'),dep=sumMov('d');x.fillStyle='#17231c';x.font='19px Arial';
+x.fillText('Édité le '+today()+' · Cotisation '+F(S.cotis)+'/mois · Carte '+F(S.carte),24,92);x.fillText('Cotisations '+F(c)+' · Cartes '+F(k)+' · Recettes '+F(inc)+' · Dépenses '+F(dep)+' · SOLDE '+F(c+k+inc-dep),24,118);
+const w=[50,330,80,...MS.map(()=>100),130];
+const rows=[['N°','Nom','Carte',...MS.map(m=>m.l),'Total'],...S.members.map(m=>[m.id,m.name,S.card[m.id]?'✓':'–',...MS.map(y=>{const p=paid(m.id,y.k);return p>=S.cotis?'✓':p>0?p:'–'}),F(MS.reduce((s,y)=>s+paid(m.id,y.k),0))]),['','TOTAL',Object.keys(S.card).length,...MS.map(y=>F(monthTotal(y.k))),F(c)]];
+x.font='15px Arial';rows.forEach((r,i)=>{let px=0,y=top+i*rh;r.forEach((v,j)=>{x.fillStyle=i==0?'#0f7a4a':i==n+1?'#e3f4ea':(i%2?'#fff':'#f4f6f3');x.fillRect(px,y,w[j],rh);x.strokeStyle='#c9d3cc';x.strokeRect(px,y,w[j],rh);x.fillStyle=i==0?'#fff':(v==='✓'?'#0f7a4a':'#17231c');x.font=(i==0||i==n+1?'bold ':'')+'15px Arial';if(j==1){x.textAlign='left';x.fillText(String(v),px+8,y+23)}else{x.textAlign='center';x.fillText(String(v),px+w[j]/2,y+23)}px+=w[j]})});
+if(fmt=='png'){const a=document.createElement('a');a.href=cv.toDataURL('image/png');a.download='recap-cotisations.png';a.click();return}
+const j=atob(cv.toDataURL('image/jpeg',.92).split(',')[1]),pw=842,ph=Math.round(H*pw/W);let p='%PDF-1.4\n',xr=[];const ob=s=>{xr.push(p.length);p+=s};
+ob('1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n');ob('2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj\n');
+ob('3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 '+pw+' '+ph+']/Resources<</XObject<</I 4 0 R>>>>/Contents 5 0 R>>endobj\n');
+ob('4 0 obj<</Type/XObject/Subtype/Image/Width '+W+'/Height '+H+'/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length '+j.length+'>>stream\n'+j+'\nendstream endobj\n');
+const ct='q '+pw+' 0 0 '+ph+' 0 0 cm /I Do Q';ob('5 0 obj<</Length '+ct.length+'>>stream\n'+ct+'\nendstream endobj\n');
+const xo=p.length;p+='xref\n0 6\n0000000000 65535 f \n'+xr.map(v=>String(v).padStart(10,'0')+' 00000 n \n').join('')+'trailer<</Size 6/Root 1 0 R>>\nstartxref\n'+xo+'\n%%EOF';
+const u=new Uint8Array(p.length);for(let i=0;i<p.length;i++)u[i]=p.charCodeAt(i);dl('recap-cotisations.pdf',u,'application/pdf')}
+let SYNCED=false;async function startSync(){if(SYNCED)return;SYNCED=true;const db=FS;const sy=document.getElementById('sy'),cf=db.doc('app/cfg');let ex;
+try{ex=await cf.get()}catch(e){SYNCED=false;return}
+DBH=db;if(sy)sy.textContent=' · 🟢 temps réel';
+if(!ex.exists&&ROLE=='a'){try{await cf.set({cotis:S.cotis,carte:S.carte,start:S.start,seeded:true});for(const m of S.members)await db.doc('members/'+m.id).set({name:m.name,tel:m.tel});for(const k in S.pay)await db.doc('pay/'+k.replace('|','_')).set(S.pay[k]);for(const k in S.card)await db.doc('card/'+k).set({d:S.card[k]});for(const x of S.mov)await db.doc('mov/'+x.i).set(x)}catch(e){}}
+cf.onSnapshot(s=>{const d=s.data();if(d){S.cotis=d.cotis;S.carte=d.carte;if(d.start!==S.start){S.start=d.start;MS=months();cur=MS.find(x=>x.k===nowK())?nowK():MS[0].k}draw()}});
+db.collection('members').onSnapshot(s=>{S.members=s.docs.map(d=>({id:+d.id,...d.data()})).sort((a,b)=>a.id-b.id);draw()});
+db.collection('pay').onSnapshot(s=>{S.pay={};s.docs.forEach(d=>{const p=d.id.split('_');S.pay[p[0]+'|'+p[1]]=d.data()});draw()});
+db.collection('card').onSnapshot(s=>{S.card={};s.docs.forEach(d=>S.card[d.id]=d.data().d);draw()});
+db.collection('mov').onSnapshot(s=>{S.mov=s.docs.map(d=>d.data());draw()})}
+function loginView(){document.getElementById('nv').innerHTML='';document.getElementById('v').innerHTML=`<div class="c" style="max-width:360px;margin:30px auto"><h2>🔒 Connexion</h2><select id="lr"><option value="a">Administrateur</option><option value="t">Trésorier</option></select><input id="lp" type="password" placeholder="Mot de passe" onkeydown="if(event.key=='Enter')login()"><button class="b" onclick="login()">Se connecter</button><p id="le" class="ko"></p></div>`}
+async function login(){le.textContent='';try{await firebase.auth().signInWithEmailAndPassword(lr.value=='a'?ADMIN_EMAIL:TRES_EMAIL,lp.value)}catch(e){le.textContent='Identifiants incorrects ou Firebase non configuré'}}
+function logout(){firebase.auth().signOut().then(()=>location.reload())}
+try{firebase.initializeApp(FB);FS=firebase.firestore();firebase.auth().onAuthStateChanged(u=>{if(!u){ROLE=null;draw();return}ROLE=u.email==ADMIN_EMAIL?'a':u.email==TRES_EMAIL?'t':null;if(!ROLE){logout();return}draw();startSync()})}catch(e){console.error(e)}
+const TABS=[['d','📊','Accueil',dash],['c','💰','Cotisations',cot],['m','👥','Membres',mem],['f','🏦','Caisse',cai],['p','⚙️','Réglages',par]];
+function draw(){if(!ROLE){if(!document.getElementById('lr'))loginView();return}document.getElementById('v').innerHTML=TABS.find(t=>t[0]==tab)[3]();document.getElementById('nv').innerHTML=TABS.map(t=>`<button class="${t[0]==tab?'on':''}" onclick="tab='${t[0]}';draw();scrollTo(0,0)"><b>${t[1]}</b>${t[2]}</button>`).join('')}
+draw();
+</script></body></html>
